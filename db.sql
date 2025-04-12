@@ -67,6 +67,7 @@ CREATE TABLE child_group(
 );
 
 CREATE TABLE training(
+  training_id SERIAL PRIMARY KEY,
   group_id uuid,
   start_date DATE NOT NULL,
   start_time TIME WITH TIME ZONE NOT NULL,
@@ -74,6 +75,12 @@ CREATE TABLE training(
   end_date DATE,
   repeat_type VARCHAR(32),
   repeat_interval INT,
-  PRIMARY KEY(group_id, training_start_date, training_start_time),
   FOREIGN KEY (group_id) REFERENCES sport_group (id) ON DELETE CASCADE
+);
+
+CREATE TABLE training_exception(
+  training_id SERIAL NOT NULL,
+  exception_date DATE NOT NULL,
+  PRIMARY KEY (training_id, exception_date),
+  FOREIGN KEY (training_id) REFERENCES training (training_id)
 );

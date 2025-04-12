@@ -1,37 +1,41 @@
-CREATE TABLE personal_info(
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY, 
-  first_name VARCHAR(64) NOT NULL,
-  last_name VARCHAR(64) NOT NULL,
+CREATE TABLE user(
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  username VARCHAR(32) UNIQUE,
+  password VARCHAR(64),
+  first_name VARCHAR(64),
+  last_name VARCHAR(64),
   phone_number VARCHAR(32),
   email VARCHAR(64)
 );
 
-CREATE TABLE account(
-  id uuid PRIMARY KEY,
-  username VARCHAR(32) NOT NULL UNIQUE,
-  password VARCHAR(64) NOT NULL,
-  FOREIGN KEY (id) REFERENCES personal_info (id) ON DELETE CASCADE
-);
-
 CREATE TABLE administrator(
   id uuid PRIMARY KEY,
-  FOREIGN KEY (id) REFERENCES personal_info (id) ON DELETE CASCADE
+  FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE
 );
 
 CREATE TABLE parent(
   id uuid PRIMARY KEY,
-  FOREIGN KEY (id) REFERENCES personal_info (id) ON DELETE CASCADE
+  amount_owed NUMERIC(10,5),
+  FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE
 );
 
 CREATE TABLE trainer(
   id uuid PRIMARY KEY,
+  date_of_birth DATE NOT NULL,
+  info TEXT,
   verified BOOLEAN DEFAULT false,
-  FOREIGN KEY (id) REFERENCES personal_info (id) ON DELETE CASCADE 
+  FOREIGN KEY (id) REFERENCES user (id) ON DELETE CASCADE 
 );
 
 CREATE TABLE child(
   id uuid PRIMARY KEY,
-  FOREIGN KEY (id) REFERENCES personal_info (id) ON DELETE CASCADE
+  parent_id uuid NOT NULL,
+  first_name VARCHAR(64) NOT NULL,
+  last_name VARCHAR(64) NOT NULL,
+  date_of_birth DATE NOT NULL,
+  phone_number VARCHAR(32),
+  email VARCHAR(64),
+  FOREIGN KEY (parent_id) REFERENCES parent (id) ON DELETE CASCADE
 );
 
 CREATE TABLE note(

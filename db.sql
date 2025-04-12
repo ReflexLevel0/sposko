@@ -39,6 +39,7 @@ CREATE TABLE note(
   trainer_id uuid,
   child_id uuid,
   text TEXT,
+  crated_time DATETIME WITH TIME ZONE,
   FOREIGN KEY (trainer_id) REFERENCES trainer (trainer_id),
   FOREIGN KEY (child_id) REFERENCES child (child_id)
 );
@@ -48,34 +49,31 @@ CREATE TABLE sport(
   name VARCHAR(64) NOT NULL UNIQUE
 );
 
-CREATE TABLE sport_group(
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  name VARCHAR(30) NOT NULL UNIQUE,
-  sport_id SERIAL NOT NULL,
-  max_members INT,
-  min_age INT,
-  max_age INT,
-  FOREIGN KEY (sport_id) REFERENCES sport (id) ON DELETE CASCADE
-);
-
-CREATE TABLE child_group(
-  group_id uuid,
-  child_id uuid,
-  PRIMARY KEY (group_id, child_id),
-  FOREIGN KEY (group_id) REFERENCES sport_group (id) ON DELETE CASCADE,
+CREATE TABLE child_training(
+  training_id uuid NOT NULL,
+  child_id uuid NOT NULL,
+  verified BOOLEAN DEFAULT FALSE,
+  PRIMARY KEY (training_id, child_id),
+  FOREIGN KEY (training_id) REFERENCES training (id) ON DELETE CASCADE,
   FOREIGN KEY (child_id) REFERENCES child (id) ON DELETE CASCADE
 );
 
 CREATE TABLE training(
-  training_id SERIAL PRIMARY KEY,
-  group_id uuid,
+  id SERIAL PRIMARY KEY,
+  trainer_id uuid,
+  max_members INT,
+  min_age INT,
+  max_age INT,
+  sport_id SERIAL NOT NULL,
   start_date DATE NOT NULL,
   start_time TIME WITH TIME ZONE NOT NULL,
   duration INTERVAL NOT NULL,
   end_date DATE,
   repeat_type VARCHAR(32),
   repeat_interval INT,
-  FOREIGN KEY (group_id) REFERENCES sport_group (id) ON DELETE CASCADE
+  FOREIGN KEY (group_id) REFERENCES sport_group (id) ON DELETE CASCADE,
+  FOREIGN KEY (trainer_id) REFERENCES trainer (id),
+  FOREIGN KEY (sport_id) REFERENCES sport (id) ON DELETE CASCADE
 );
 
 CREATE TABLE training_exception(

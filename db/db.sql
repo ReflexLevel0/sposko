@@ -55,34 +55,42 @@ CREATE TABLE sports(
   name VARCHAR(64) NOT NULL UNIQUE
 );
 
-CREATE TABLE trainings(
+CREATE TABLE sport_groups(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(64) NOT NULL,
+	trainer_id UUID,
+	sport_id SERIAL NOT NULL,
+	max_members INT,
+	min_age INT,
+	max_age INT,
+	FOREIGN KEY (trainer_id) REFERENCES trainers (id),
+    FOREIGN KEY (sport_id) REFERENCES sports (id) ON DELETE CASCADE
+);
+
+CREATE TABLE sport_trainings(
   id SERIAL PRIMARY KEY,
-  trainer_id UUID,
-  sport_id SERIAL NOT NULL,
-  max_members INT,
-  min_age INT,
-  max_age INT,
+  group_id SERIAL NOT NULL,
   start_date DATE NOT NULL,
   start_time TIME WITH TIME ZONE NOT NULL,
   duration INTERVAL NOT NULL,
   end_date DATE,
   repeat_type VARCHAR(32),
   repeat_interval INT,
-  FOREIGN KEY (trainer_id) REFERENCES trainers (id),
-  FOREIGN KEY (sport_id) REFERENCES sports (id) ON DELETE CASCADE
+  cost DECIMAL(10,5) NOT NULL,
+  FOREIGN KEY(group_id) REFERENCES sport_groups (id)
 );
 
 CREATE TABLE training_exceptions(
   training_id SERIAL NOT NULL,
   exception_date DATE NOT NULL,
   PRIMARY KEY (training_id, exception_date),
-  FOREIGN KEY (training_id) REFERENCES trainings (id)
+  FOREIGN KEY (training_id) REFERENCES sport_trainings (id)
 );
 
-CREATE TABLE child_training(
+CREATE TABLE child_group(
   child_id UUID NOT NULL,
-  training_id SERIAL NOT NULL,
-  PRIMARY KEY (training_id, child_id),
-  FOREIGN KEY (training_id) REFERENCES trainings (id) ON DELETE CASCADE,
-  FOREIGN KEY (child_id) REFERENCES children (id) ON DELETE CASCADE
+  group_id SERIAL NOT NULL,
+  PRIMARY KEY (child_id, group_id),
+  FOREIGN KEY (child_id) REFERENCES children (id) ON DELETE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES sport_groups (id) ON DELETE CASCADE
 );

@@ -27,20 +27,18 @@ public class SportsController(SposkoDb db) : ControllerBase
     }
 
     [HttpPost]
-    public async Task Post([FromBody] Sport value)
+    public async Task Post([FromBody] SportInsert sport)
     {
         await db.Sports
-          .Value(s => s.Id, value.Id)
-          .Value(s => s.Name, value.Name)
+          .Value(s => s.Name, sport.Name)
           .InsertAsync();
     }
 
     [HttpPut("{id}")]
-    public async Task Put(int id, [FromBody] Sport value)
+    public async Task Put(int id, [FromBody] SportInsert sport)
     {
         await db.Sports.Where(s => s.Id == id)
-          .Set(s => s.Id, value.Id)
-          .Set(s => s.Name, value.Name)
+          .Set(s => s.Name, sport.Name)
           .UpdateAsync();
     }
 

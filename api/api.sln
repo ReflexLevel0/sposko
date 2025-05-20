@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "api\api.csproj", "{AC4DC22D-235A-4BAC-9375-C75186759758}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{99DB2C2E-F701-4DCA-99EB-5262BA8C1234}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC4DC22D-235A-4BAC-9375-C75186759758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4DC22D-235A-4BAC-9375-C75186759758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4DC22D-235A-4BAC-9375-C75186759758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4DC22D-235A-4BAC-9375-C75186759758}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

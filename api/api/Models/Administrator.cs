@@ -13,17 +13,17 @@ using System;
 
 namespace DataModel
 {
-	[Table("administrators")]
-	public class Administrator
-	{
-		[Column("id", IsPrimaryKey = true)] public Guid Id { get; set; } // uuid
+    [Table("administrators")]
+    public class Administrator
+    {
+        [Column("id", IsPrimaryKey = true)] public Guid Id { get; set; } // uuid
 
-		#region Associations
-		/// <summary>
-		/// administrators_id_fkey
-		/// </summary>
-		[Association(CanBeNull = false, ThisKey = nameof(Id), OtherKey = nameof(User.Id))]
-		public User Idfkey { get; set; } = null!;
-		#endregion
-	}
+        #region Associations
+        /// <summary>
+        /// administrators_id_fkey
+        /// </summary>
+        [Association(CanBeNull = false, ThisKey = nameof(Id), OtherKey = nameof(User.Id))]
+        public User Idfkey { get; set; } = null!;
+        #endregion
+    }
 }

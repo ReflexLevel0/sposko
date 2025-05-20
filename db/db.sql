@@ -1,4 +1,5 @@
-CREATE EXTENSION IF NOT EXISTS "UUID-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+ALTER EXTENSION "uuid-ossp" SET SCHEMA public;
 
 CREATE TABLE users(
   id UUID DEFAULT UUID_generate_v4() PRIMARY KEY,
@@ -59,7 +60,7 @@ CREATE TABLE sport_groups(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(64) NOT NULL,
 	trainer_id UUID,
-	sport_id SERIAL NOT NULL,
+	sport_id INT NOT NULL,
 	max_members INT,
 	min_age INT,
 	max_age INT,
@@ -69,7 +70,7 @@ CREATE TABLE sport_groups(
 
 CREATE TABLE sport_trainings(
   id SERIAL PRIMARY KEY,
-  group_id SERIAL NOT NULL,
+  group_id INT NOT NULL,
   start_date DATE NOT NULL,
   start_time TIME WITH TIME ZONE NOT NULL,
   duration INTERVAL NOT NULL,
@@ -89,7 +90,7 @@ CREATE TABLE training_exceptions(
 
 CREATE TABLE child_group(
   child_id UUID NOT NULL,
-  group_id SERIAL NOT NULL,
+  group_id INT NOT NULL,
   PRIMARY KEY (child_id, group_id),
   FOREIGN KEY (child_id) REFERENCES children (id) ON DELETE CASCADE,
   FOREIGN KEY (group_id) REFERENCES sport_groups (id) ON DELETE CASCADE

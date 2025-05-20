@@ -45,6 +45,7 @@ public class SportsController(SposkoDb db) : ControllerBase
     [HttpDelete("{id}")]
     public async Task Delete(int id)
     {
-        await db.Sports.Select(s => s.Id == id).DeleteAsync();
+        var query = db.Sports.Where(s => s.Id == id);
+        await query.DeleteAsync();
     }
 }

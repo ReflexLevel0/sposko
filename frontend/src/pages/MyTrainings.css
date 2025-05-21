@@ -1,0 +1,104 @@
+.mytrainings-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .child-section {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #b6c7e3;
+  }
+  
+  .group-section {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #eef3fa;
+    border-radius: 8px;
+  }
+  
+  .group-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .trainings-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  
+  .training-card {
+    background: #fff;
+    border: 1px solid #b6c7e3;
+    border-radius: 6px;
+    padding: 10px 16px;
+    min-width: 180px;
+    box-shadow: 0 1px 4px rgba(10,56,113,0.03);
+  }
+  
+  .no-trainings, .no-groups {
+    color: #888;
+    font-style: italic;
+    margin: 10px 0;
+  }
+  
+  .add-training-btn {
+    background: #0a3871;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .add-training-btn:hover {
+    background: #185ea8;
+  }
+  
+  .add-training-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  
+  .add-training-form input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #b6c7e3;
+    font-size: 1em;
+  }
+  
+  .add-training-form button {
+    background: #0a3871;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  
+  .add-training-form button[type="button"] {
+    background: #b6c7e3;
+    color: #222;
+  }
+  
+  .mytrainings-error {
+    color: #c0392b;
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+  .mytrainings-success {
+    color: #27ae60;
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+  .mytrainings-info {
+    text-align: center;
+    margin: 40px 0;
+    color: #444;
+  }
+  

@@ -1,0 +1,61 @@
+.groups-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .group-sport-section {
+    margin-bottom: 32px;
+  }
+  
+  .groups-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .group-card {
+    background: #eef3fa;
+    border-radius: 10px;
+    padding: 18px 20px;
+    min-width: 220px;
+    box-shadow: 0 2px 8px rgba(10,56,113,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .group-card select,
+  .group-card button {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #b6c7e3;
+    font-size: 1em;
+  }
+  
+  .group-card button {
+    background: #0a3871;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-left: 0;
+  }
+  
+  .group-card button[disabled] {
+    background: #b6c7e3;
+    color: #fff;
+    cursor: not-allowed;
+  }
+  
+  .group-error {
+    color: #c0392b;
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+  .group-success {
+    color: #27ae60;
+    margin-top: 16px;
+    text-align: center;
+  }
+  

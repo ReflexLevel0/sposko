@@ -1,0 +1,26 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0a3871;
+    padding: 12px 32px;
+    color: #fff;
+  }
+  .navbar-left img {
+    vertical-align: middle;
+  }
+  .navbar-right a,
+  .navbar-right button {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+  }
+  .navbar-right a:hover,
+  .navbar-right button:hover {
+    text-decoration: underline;
+  }
+  

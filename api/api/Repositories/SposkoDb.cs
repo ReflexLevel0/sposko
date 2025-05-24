@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace sposko
 {
-    public partial class SposkoDb : DataConnection
+    public partial class SposkoDb : DataConnection, ISposkoDb
     {
         public SposkoDb()
         {

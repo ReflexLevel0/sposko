@@ -1,6 +1,6 @@
 namespace sposko;
 
-public class SportDTO
+public class SportDTO : CreateSportDTO
 {
-    public string? Name { get; set; }
+    public int Id { get; set; }
 }

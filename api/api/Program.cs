@@ -13,7 +13,8 @@ var dataOptions = new DataOptions<SposkoDb>(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddScoped<SposkoDb>(_ => new SposkoDb(dataOptions));
+builder.Services.AddScoped<ISposkoDb>(_ => new SposkoDb(dataOptions));
+builder.Services.AddScoped<ISportService>(ctx => new SportService(ctx.GetService<ISposkoDb>()));
 
 var app = builder.Build();
 

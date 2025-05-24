@@ -11,11 +11,11 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: sposko
-  api:
-    container_name: sposko-api
-    image: api
-    ports:
-      - "8080:8080"
-    build:
-      context: api
-      dockerfile: ./api/Dockerfile
+  # api:
+  #   container_name: sposko-api
+  #   image: api
+  #   ports:
+  #     - "8080:8080"
+  #   build:
+  #     context: api
+  #     dockerfile: ./api/Dockerfile

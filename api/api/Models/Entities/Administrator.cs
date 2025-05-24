@@ -11,7 +11,7 @@ using System;
 #pragma warning disable 1573, 1591
 #nullable enable
 
-namespace DataModel
+namespace sposko
 {
     [Table("administrators")]
     public class Administrator

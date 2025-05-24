@@ -1,6 +1,6 @@
-using DataModel;
 using LinqToDB;
 using LinqToDB.Data;
+using sposko;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
 namespace sposko;
 
-public class SportInsert
+public class SportDTO
 {
     public string? Name { get; set; }
 }

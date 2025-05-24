@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DataModel;
 using System.Linq;
 using LinqToDB;
 namespace sposko;
@@ -27,7 +26,7 @@ public class SportsController(SposkoDb db) : ControllerBase
     }
 
     [HttpPost]
-    public async Task Post([FromBody] SportInsert sport)
+    public async Task Post([FromBody] SportDTO sport)
     {
         await db.Sports
           .Value(s => s.Name, sport.Name)

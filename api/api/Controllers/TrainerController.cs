@@ -6,31 +6,42 @@ namespace sposko;
 public class TrainerController(ITrainerService trainerService) : ControllerBase
 {
     [HttpGet]
-    public async IAsyncEnumerable<TrainerDTO> Get()
+    [ProducesResponseType(typeof(List<TrainerDTO>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<TrainerDTO>>> Get()
     {
-        var trainers = trainerService.GetTrainers();
-        await foreach (var trainer in trainers)
+        var trainers = new List<TrainerDTO>();
+        await foreach (var trainer in trainerService.GetTrainers())
         {
-            yield return trainer;
+            trainers.Add(trainer);
         }
+        return Ok(trainers);
     }
 
     [HttpGet("{id}")]
-    public async Task<TrainerDTO?> Get(Guid id)
+    [ProducesResponseType(typeof(TrainerDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<TrainerDTO?>> Get(Guid id)
     {
-        return await trainerService.GetTrainerById(id);
+        var trainer = await trainerService.GetTrainerById(id);
+        return trainer == null ? NotFound() : Ok(trainer);
     }
 
     [HttpPost]
-    public async Task<TrainerDTO?> Post([FromBody] CreateTrainerDTO trainer)
+    [ProducesResponseType(typeof(TrainerDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<TrainerDTO?>> Post([FromBody] CreateTrainerDTO trainer)
     {
-        return await trainerService.CreateTrainer(trainer);
+        var insertedTrainer = await trainerService.CreateTrainer(trainer);
+        return insertedTrainer == null ? Conflict() : Created("/api/trainer", insertedTrainer);
     }
 
     [HttpDelete("{id}")]
-    public async Task<int> Delete(Guid id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Delete(Guid id)
     {
-        return await trainerService.DeleteTrainerById(id);
+        int changedRows = await trainerService.DeleteTrainerById(id);
+        return changedRows == 0 ? NotFound() : Ok();
     }
 }
 

@@ -23,8 +23,7 @@ public class SportGroupController(ISportGroupService groupService) : ControllerB
     public async Task<ActionResult<SportGroupDTO?>> Get(int id)
     {
         var group = await groupService.GetSportGroupById(id);
-        if (group == null) return NotFound();
-        return Ok(group);
+        return group == null ? NotFound() : Ok(group);
     }
 
     [HttpPost]
@@ -33,8 +32,7 @@ public class SportGroupController(ISportGroupService groupService) : ControllerB
     public async Task<ActionResult<SportGroupDTO?>> Post([FromBody] CreateSportGroupDTO group)
     {
         var insertedGroup = await groupService.CreateSportGroup(group);
-        if (insertedGroup == null) return Conflict();
-        return Ok(insertedGroup);
+        return insertedGroup == null ? Conflict() : Ok(insertedGroup);
     }
 
     [HttpDelete("{id}")]

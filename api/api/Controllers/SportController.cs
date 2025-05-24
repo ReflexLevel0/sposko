@@ -24,8 +24,7 @@ public class SportController(ISportService sportService) : ControllerBase
     public async Task<ActionResult<SportDTO?>> Get(int id)
     {
         var sport = await sportService.GetSportById(id);
-        if (sport == null) return NotFound(null);
-        return Ok(sport);
+        return sport == null ? NotFound() : Ok(sport);
     }
 
     [HttpPost]
@@ -34,8 +33,7 @@ public class SportController(ISportService sportService) : ControllerBase
     public async Task<ActionResult<SportDTO?>> Post([FromBody] CreateSportDTO sport)
     {
         var insertedSport = await sportService.CreateSport(sport);
-        if (insertedSport == null) return Conflict();
-        return Created("/api/sport", insertedSport);
+        return insertedSport == null ? Conflict() : Created("/api/sport", insertedSport);
     }
 
     [HttpDelete("{id}")]

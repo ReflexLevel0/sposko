@@ -3,34 +3,45 @@ namespace sposko;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController(IUserService sportService) : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
     [HttpGet]
-    public async IAsyncEnumerable<UserDTO> Get()
+    [ProducesResponseType(typeof(List<UserDTO>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<UserDTO>>> Get()
     {
-        var sports = sportService.GetUsers();
-        await foreach (var sport in sports)
+        var users = new List<UserDTO>();
+        await foreach (var user in userService.GetUsers())
         {
-            yield return sport;
+            users.Add(user);
         }
+        return users;
     }
 
     [HttpGet("{id}")]
-    public async Task<UserDTO?> Get(Guid id)
+    [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserDTO?>> Get(Guid id)
     {
-        return await sportService.GetUserById(id);
+        var user = await userService.GetUserById(id);
+        return user == null ? NotFound() : Ok(user);
     }
 
     [HttpPost]
-    public async Task<UserDTO?> Post([FromBody] CreateUserDTO sport)
+    [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<UserDTO?>> Post([FromBody] CreateUserDTO user)
     {
-        return await sportService.CreateUser(sport);
+        var insertedUser = await userService.CreateUser(user);
+        return insertedUser == null ? Conflict() : Ok(insertedUser);
     }
 
     [HttpDelete("{id}")]
-    public async Task<int> Delete(Guid id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Delete(Guid id)
     {
-        return await sportService.DeleteUserById(id);
+        int changedRows = await userService.DeleteUserById(id);
+        return changedRows == 0 ? NotFound() : Ok();
     }
 }
 

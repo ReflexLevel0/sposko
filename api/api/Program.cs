@@ -21,6 +21,12 @@ builder.Services.AddScoped<ISportService>(
       ctx.GetService<IServiceHelper<Sport, SportDTO, CreateSportDTO>>()
     )
 );
+builder.Services.AddScoped<IUserService>(
+    ctx => new UserService(
+      ctx.GetService<ISposkoDb>(),
+      ctx.GetService<IServiceHelper<User, UserDTO, CreateUserDTO>>()
+    )
+);
 
 var app = builder.Build();
 

@@ -3,7 +3,7 @@ namespace sposko;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SportsController(ISportService sportService) : ControllerBase
+public class SportController(ISportService sportService) : ControllerBase
 {
     [HttpGet]
     public async IAsyncEnumerable<SportDTO> Get()

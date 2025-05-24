@@ -43,5 +43,20 @@ namespace sposko
         [Association(ThisKey = nameof(Id), OtherKey = nameof(Trainer.Id))]
         public Trainer? Trainers { get; set; }
         #endregion
+
+        public static explicit operator UserDTO(User user)
+        {
+            UserDTO output = new UserDTO
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Username = user.Username,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber
+            };
+            return output;
+        }
     }
 }

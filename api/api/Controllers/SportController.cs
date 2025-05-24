@@ -6,30 +6,45 @@ namespace sposko;
 public class SportController(ISportService sportService) : ControllerBase
 {
     [HttpGet]
-    public async IAsyncEnumerable<SportDTO> Get()
+    [ProducesResponseType(typeof(List<SportDTO>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<SportDTO>>> Get()
     {
-        var sports = sportService.GetSports();
-        await foreach (var sport in sports)
+        var sports = new List<SportDTO>();
+        await foreach (var sport in sportService.GetSports())
         {
-            yield return sport;
+            sports.Add(sport);
         }
+
+        return Ok(sports);
     }
 
     [HttpGet("{id}")]
-    public async Task<SportDTO?> Get(int id)
+    [ProducesResponseType(typeof(SportDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<SportDTO?>> Get(int id)
     {
-        return await sportService.GetSportById(id);
+        var sport = await sportService.GetSportById(id);
+        if (sport == null) return NotFound(null);
+        return Ok(sport);
     }
 
     [HttpPost]
-    public async Task<SportDTO?> Post([FromBody] CreateSportDTO sport)
+    [ProducesResponseType(typeof(SportDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<SportDTO?>> Post([FromBody] CreateSportDTO sport)
     {
-        return await sportService.CreateSport(sport);
+        var insertedSport = await sportService.CreateSport(sport);
+        if (insertedSport == null) return Conflict();
+        return Created("/api/sport", insertedSport);
     }
 
     [HttpDelete("{id}")]
-    public async Task<int> Delete(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Delete(int id)
     {
-        return await sportService.DeleteSportById(id);
+        int changedRows = await sportService.DeleteSportById(id);
+        if (changedRows == 0) return NotFound();
+        return Ok();
     }
 }

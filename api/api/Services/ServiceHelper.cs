@@ -5,9 +5,16 @@ public class ServiceHelper<TEntity, TDTO, TCreateDTO> : IServiceHelper<TEntity, 
 {
     public async Task<TDTO?> CreateObject(TCreateDTO obj, Task<int> insertTask, IQueryable<TEntity?> getObjectQuery, Func<TEntity, TDTO> mapper)
     {
-        await insertTask.WaitAsync(CancellationToken.None);
-        var readObj = await getObjectQuery.FirstOrDefaultAsync(CancellationToken.None);
-        return readObj == null ? null : mapper.Invoke(readObj);
+        try
+        {
+            await insertTask.WaitAsync(CancellationToken.None);
+            var readObj = await getObjectQuery.FirstOrDefaultAsync(CancellationToken.None);
+            return readObj == null ? null : mapper.Invoke(readObj);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public async Task<TDTO?> GetObjectById(IQueryable<TEntity?> getObject, Func<TEntity, TDTO> mapper)

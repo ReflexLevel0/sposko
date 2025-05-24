@@ -43,8 +43,7 @@ public class SportController(ISportService sportService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Delete(int id)
     {
-        int changedRows = await sportService.DeleteSportById(id);
-        if (changedRows == 0) return NotFound();
+        if (await sportService.DeleteSportById(id) == 0) return NotFound();
         return Ok();
     }
 }

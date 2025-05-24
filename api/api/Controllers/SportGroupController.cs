@@ -6,30 +6,43 @@ namespace sposko;
 public class SportGroupController(ISportGroupService groupService) : ControllerBase
 {
     [HttpGet]
-    public async IAsyncEnumerable<SportGroupDTO> Get()
+    [ProducesResponseType(typeof(List<SportGroupDTO>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<SportGroupDTO>>> Get()
     {
-        var groups = groupService.GetSportGroups();
-        await foreach (var group in groups)
+        var groups = new List<SportGroupDTO>();
+        await foreach (var group in groupService.GetSportGroups())
         {
-            yield return group;
+            groups.Add(group);
         }
+        return Ok(groups);
     }
 
     [HttpGet("{id}")]
-    public async Task<SportGroupDTO?> Get(int id)
+    [ProducesResponseType(typeof(SportGroupDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<SportGroupDTO?>> Get(int id)
     {
-        return await groupService.GetSportGroupById(id);
+        var group = await groupService.GetSportGroupById(id);
+        if (group == null) return NotFound();
+        return Ok(group);
     }
 
     [HttpPost]
-    public async Task<SportGroupDTO?> Post([FromBody] CreateSportGroupDTO group)
+    [ProducesResponseType(typeof(SportGroupDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<SportGroupDTO?>> Post([FromBody] CreateSportGroupDTO group)
     {
-        return await groupService.CreateSportGroup(group);
+        var insertedGroup = await groupService.CreateSportGroup(group);
+        if (insertedGroup == null) return Conflict();
+        return Ok(insertedGroup);
     }
 
     [HttpDelete("{id}")]
-    public async Task<int> Delete(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Delete(int id)
     {
-        return await groupService.DeleteSportGroupById(id);
+        if (await groupService.DeleteSportGroupById(id) == 0) return NotFound();
+        return Ok();
     }
 }

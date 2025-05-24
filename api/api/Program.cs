@@ -14,7 +14,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ISposkoDb>(_ => new SposkoDb(dataOptions));
-builder.Services.AddScoped<ISportService>(ctx => new SportService(ctx.GetService<ISposkoDb>()));
+builder.Services.AddScoped(typeof(IServiceHelper<,,>), typeof(ServiceHelper<,,>));
+builder.Services.AddScoped<ISportService>(
+    ctx => new SportService(
+      ctx.GetService<ISposkoDb>(),
+      ctx.GetService<IServiceHelper<Sport, SportDTO, CreateSportDTO>>()
+    )
+);
 
 var app = builder.Build();
 

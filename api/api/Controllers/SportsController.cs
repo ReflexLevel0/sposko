@@ -28,7 +28,7 @@ public class SportsController(ISportService sportService) : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<SportDTO?> Delete(int id)
+    public async Task<int> Delete(int id)
     {
         return await sportService.DeleteSportById(id);
     }

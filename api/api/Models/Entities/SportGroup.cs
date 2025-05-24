@@ -50,5 +50,19 @@ namespace sposko
         [Association(ThisKey = nameof(Id), OtherKey = nameof(SportTraining.GroupId))]
         public IEnumerable<SportTraining> SportTrainings { get; set; } = null!;
         #endregion
+
+        public static explicit operator SportGroupDTO(SportGroup group)
+        {
+            return new SportGroupDTO
+            {
+                Id = group.Id,
+                Name = group.Name,
+                SportId = group.SportId,
+                TrainerId = group.TrainerId,
+                MinAge = group.MinAge,
+                MaxAge = group.MaxAge,
+                MaxMembers = group.MaxMembers
+            };
+        }
     }
 }

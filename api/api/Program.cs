@@ -5,7 +5,7 @@ using sposko;
 var builder = WebApplication.CreateBuilder(args);
 
 var dataOptions = new DataOptions<SposkoDb>(
-    new DataOptions().UsePostgreSQL("Host=localhost;Username=user;Password=password;Database=sposko")
+    new DataOptions().UsePostgreSQL("Host=localhost;Username=user;Password=password;Database=sposko;IncludeErrorDetail=true")
 );
 
 // Add services to the container.
@@ -25,6 +25,18 @@ builder.Services.AddScoped<IUserService>(
     ctx => new UserService(
       ctx.GetService<ISposkoDb>(),
       ctx.GetService<IServiceHelper<User, UserDTO, CreateUserDTO>>()
+    )
+);
+builder.Services.AddScoped<ISportGroupService>(
+    ctx => new SportGroupService(
+      ctx.GetService<ISposkoDb>(),
+      ctx.GetService<IServiceHelper<SportGroup, SportGroupDTO, CreateSportGroupDTO>>()
+    )
+);
+builder.Services.AddScoped<ITrainerService>(
+    ctx => new TrainerService(
+      ctx.GetService<ISposkoDb>(),
+      ctx.GetService<IServiceHelper<Trainer, TrainerDTO, CreateTrainerDTO>>()
     )
 );
 

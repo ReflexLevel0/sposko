@@ -41,5 +41,16 @@ namespace sposko
         [Association(CanBeNull = false, ThisKey = nameof(Id), OtherKey = nameof(User.Id))]
         public User Idfkey { get; set; } = null!;
         #endregion
+
+        public static explicit operator TrainerDTO(Trainer t)
+        {
+            return new TrainerDTO
+            {
+                Id = t.Id,
+                Verified = t.Verified,
+                Info = t.Info,
+                DateOfBirth = t.DateOfBirth
+            };
+        }
     }
 }

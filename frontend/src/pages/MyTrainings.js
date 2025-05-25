@@ -46,7 +46,15 @@ const MyTrainings = () => {
   useEffect(() => {
     if (user && user.role === "trainer") {
       axios.get(`/api/sportgroup?trainerid=${user.id}`).then(res => {
-        setGroups(res.data);
+        let groups = []
+        res.data.forEach(group => {
+          axios.get(`/api/sport/${group.sportId}`).then(sportRes => {
+            group.sportname = sportRes.data.name
+          })
+          groups.push(group)
+        })
+        setGroups(groups);
+
         res.data.forEach(group => {
           axios.get(`/api/sporttraining?groupid=${group.id}`).then(res2 => {
             let trainings = []
@@ -145,7 +153,7 @@ const MyTrainings = () => {
             groups.map(group => (
               <div key={group.id} className="group-section">
                 <div className="group-title">
-                  Grupa: <b>{group.name}</b> ([SPORT_NAME]]) ({group.minAge}-{group.maxAge} godina) ([CURR_MEMBERS]/{group.maxMembers} članova)
+                  Grupa: <b>{group.name}</b> ({group.sportname}) ({group.minAge}-{group.maxAge} godina) (0/{group.maxMembers} članova)
                 </div>
                 <button
                   className="add-training-btn"

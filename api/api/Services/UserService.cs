@@ -2,7 +2,7 @@ using LinqToDB;
 
 namespace sposko;
 
-public class UserService(ISposkoDb db, IServiceHelper<User, UserDTO, CreateUserDTO> serviceHelper) : IUserService
+public class UserService(ISposkoDb db, IServiceHelper<User, UserDTO, CreateUserDTO, CreateUserDTO> serviceHelper) : IUserService
 {
     private static Func<User, UserDTO> _mapper = user => (UserDTO)user;
     private Func<Guid, IQueryable<User?>> _getUserById = id => db.Users.Where(s => s.Id == id);

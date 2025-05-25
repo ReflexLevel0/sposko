@@ -2,7 +2,7 @@ using LinqToDB;
 
 namespace sposko;
 
-public class SportService(ISposkoDb db, IServiceHelper<Sport, SportDTO, CreateSportDTO> serviceHelper) : ISportService
+public class SportService(ISposkoDb db, IServiceHelper<Sport, SportDTO, CreateSportDTO, CreateSportDTO> serviceHelper) : ISportService
 {
     private static Func<Sport, SportDTO> _mapper = sport => (SportDTO)sport;
     private Func<int, IQueryable<Sport?>> _getSportById = id => db.Sports.Where(s => s.Id == id);

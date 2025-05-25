@@ -1,7 +1,7 @@
 using LinqToDB;
 namespace sposko;
 
-public class ServiceHelper<TEntity, TDTO, TCreateDTO> : IServiceHelper<TEntity, TDTO, TCreateDTO> where TDTO : class
+public class ServiceHelper<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceHelper<TEntity, TDTO, TCreateDTO, TUpdateDTO> where TDTO : class
 {
     public async Task<TDTO?> CreateObject(TCreateDTO obj, Task<int> insertTask, IQueryable<TEntity?> getObjectQuery, Func<TEntity, TDTO> mapper)
     {
@@ -29,6 +29,14 @@ public class ServiceHelper<TEntity, TDTO, TCreateDTO> : IServiceHelper<TEntity, 
         {
             yield return mapper.Invoke(obj);
         }
+    }
+
+    public async Task<TDTO?> UpdateObject(TUpdateDTO obj, IQueryable<TEntity?> getObjectQuery, Task<int> updateTask, Func<TEntity, TDTO> mapper)
+    {
+        int changedRows = await updateTask.WaitAsync(CancellationToken.None);
+        if (changedRows == 0) return null;
+        var updatedObj = await getObjectQuery.FirstOrDefaultAsync();
+        return updatedObj == null ? null : mapper.Invoke(updatedObj);
     }
 
     public async Task<int> DeleteObjectById(IQueryable<TEntity?> getObjectQuery)

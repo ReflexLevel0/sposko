@@ -2,7 +2,7 @@ using LinqToDB;
 
 namespace sposko;
 
-public class TrainerService(ISposkoDb db, IServiceHelper<Trainer, TrainerDTO, CreateTrainerDTO> serviceHelper) : ITrainerService
+public class TrainerService(ISposkoDb db, IServiceHelper<Trainer, TrainerDTO, CreateTrainerDTO, CreateTrainerDTO> serviceHelper) : ITrainerService
 {
     private static Func<Trainer, TrainerDTO> _mapper = trainer => (TrainerDTO)trainer;
     private Func<Guid, IQueryable<Trainer?>> _getTrainerById = id => db.Trainers.Where(s => s.Id == id);

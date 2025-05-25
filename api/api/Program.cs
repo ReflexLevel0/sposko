@@ -14,35 +14,35 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ISposkoDb>(_ => new SposkoDb(dataOptions));
-builder.Services.AddScoped(typeof(IServiceHelper<,,>), typeof(ServiceHelper<,,>));
+builder.Services.AddScoped(typeof(IServiceHelper<,,,>), typeof(ServiceHelper<,,,>));
 builder.Services.AddScoped<ISportService>(
     ctx => new SportService(
       ctx.GetService<ISposkoDb>(),
-      ctx.GetService<IServiceHelper<Sport, SportDTO, CreateSportDTO>>()
+      ctx.GetService<IServiceHelper<Sport, SportDTO, CreateSportDTO, CreateSportDTO>>()
     )
 );
 builder.Services.AddScoped<IUserService>(
     ctx => new UserService(
       ctx.GetService<ISposkoDb>(),
-      ctx.GetService<IServiceHelper<User, UserDTO, CreateUserDTO>>()
+      ctx.GetService<IServiceHelper<User, UserDTO, CreateUserDTO, CreateUserDTO>>()
     )
 );
 builder.Services.AddScoped<ISportGroupService>(
     ctx => new SportGroupService(
       ctx.GetService<ISposkoDb>(),
-      ctx.GetService<IServiceHelper<SportGroup, SportGroupDTO, CreateSportGroupDTO>>()
+      ctx.GetService<IServiceHelper<SportGroup, SportGroupDTO, CreateSportGroupDTO, CreateSportGroupDTO>>()
     )
 );
 builder.Services.AddScoped<ITrainerService>(
     ctx => new TrainerService(
       ctx.GetService<ISposkoDb>(),
-      ctx.GetService<IServiceHelper<Trainer, TrainerDTO, CreateTrainerDTO>>()
+      ctx.GetService<IServiceHelper<Trainer, TrainerDTO, CreateTrainerDTO, CreateTrainerDTO>>()
     )
 );
 builder.Services.AddScoped<ISportTrainingService>(
     ctx => new SportTrainingService(
       ctx.GetService<ISposkoDb>(),
-      ctx.GetService<IServiceHelper<SportTraining, SportTrainingDTO, CreateSportTrainingDTO>>()
+      ctx.GetService<IServiceHelper<SportTraining, SportTrainingDTO, CreateSportTrainingDTO, UpdateSportTrainingDTO>>()
     )
 );
 builder.Services.AddCors(options =>

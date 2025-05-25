@@ -2,7 +2,7 @@ using LinqToDB;
 
 namespace sposko;
 
-public class SportTrainingService(ISposkoDb db, IServiceHelper<SportTraining, SportTrainingDTO, CreateSportTrainingDTO> serviceHelper) : ISportTrainingService
+public class SportTrainingService(ISposkoDb db, IServiceHelper<SportTraining, SportTrainingDTO, CreateSportTrainingDTO, UpdateSportTrainingDTO> serviceHelper) : ISportTrainingService
 {
     private static Func<SportTraining, SportTrainingDTO> _mapper = training => (SportTrainingDTO)training;
     private Func<int, IQueryable<SportTraining?>> _getTrainingById = id => db.SportTrainings.Where(t => t.Id == id);
@@ -40,6 +40,22 @@ public class SportTrainingService(ISposkoDb db, IServiceHelper<SportTraining, Sp
         {
             yield return training;
         }
+    }
+
+    public async Task<SportTrainingDTO?> UpdateSportTraining(int id, UpdateSportTrainingDTO newTraining)
+    {
+        var updateTask = db.SportTrainings
+          .Where(t => t.Id == id)
+          .Set(t => t.GroupId, t => newTraining.GroupId ?? t.GroupId)
+          .Set(t => t.StartDate, t => newTraining.StartDate ?? t.StartDate)
+          // .Set(t => t.StartTime, t => newTraining.StartTime ?? t.StartTime)
+          .Set(t => t.Duration, t => newTraining.Duration ?? t.Duration)
+          .Set(t => t.EndDate, t => newTraining.EndDate ?? t.EndDate)
+          .Set(t => t.RepeatType, t => newTraining.RepeatType ?? t.RepeatType)
+          .Set(t => t.RepeatInterval, t => newTraining.RepeatInterval ?? t.RepeatInterval)
+          .Set(t => t.Cost, t => newTraining.Cost ?? t.Cost)
+          .UpdateAsync();
+        return await serviceHelper.UpdateObject(newTraining, _getTrainingById.Invoke(id), updateTask, _mapper);
     }
 
     public async Task<int> DeleteSportTrainingById(int id)

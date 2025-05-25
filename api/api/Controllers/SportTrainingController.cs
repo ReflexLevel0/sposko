@@ -35,6 +35,16 @@ public class SportTrainingController(ISportTrainingService trainingService) : Co
         return insertedTraining == null ? Conflict() : Ok(insertedTraining);
     }
 
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(SportGroupDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SportGroupDTO), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<SportTrainingDTO?>> Put(int id, [FromBody] UpdateSportTrainingDTO training)
+    {
+        var updatedTraining = await trainingService.UpdateSportTraining(id, training);
+        return updatedTraining == null ? NotFound() : Ok(updatedTraining);
+    }
+
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

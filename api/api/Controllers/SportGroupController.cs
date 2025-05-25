@@ -7,10 +7,10 @@ public class SportGroupController(ISportGroupService groupService) : ControllerB
 {
     [HttpGet]
     [ProducesResponseType(typeof(List<SportGroupDTO>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<SportGroupDTO>>> Get()
+    public async Task<ActionResult<List<SportGroupDTO>>> Get([FromQuery] Guid? trainerId)
     {
         var groups = new List<SportGroupDTO>();
-        await foreach (var group in groupService.GetSportGroups())
+        await foreach (var group in groupService.GetSportGroups(trainerId))
         {
             groups.Add(group);
         }

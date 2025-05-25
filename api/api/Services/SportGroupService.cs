@@ -28,9 +28,12 @@ public class SportGroupService(ISposkoDb db, IServiceHelper<SportGroup, SportGro
         return await serviceHelper.GetObjectById(_getGroupById.Invoke(id), _mapper);
     }
 
-    public async IAsyncEnumerable<SportGroupDTO> GetSportGroups()
+    public async IAsyncEnumerable<SportGroupDTO> GetSportGroups(Guid? trainerId = null)
     {
-        await foreach (var group in serviceHelper.GetObjects(db.SportGroups.AsAsyncEnumerable(), _mapper))
+        var query = trainerId == null ?
+          db.SportGroups :
+          db.SportGroups.Where(g => g.TrainerId.Equals(trainerId));
+        await foreach (var group in serviceHelper.GetObjects(query.AsAsyncEnumerable(), _mapper))
         {
             yield return group;
         }

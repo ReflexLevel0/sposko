@@ -145,7 +145,7 @@ const MyTrainings = () => {
             groups.map(group => (
               <div key={group.id} className="group-section">
                 <div className="group-title">
-                  Grupa: <b>{group.name}</b> ({group.sport_name})
+                  Grupa: <b>{group.name}</b> ([SPORT_NAME]]) ({group.minAge}-{group.maxAge} godina) ([CURR_MEMBERS]/{group.maxMembers} članova)
                 </div>
                 <button
                   className="add-training-btn"

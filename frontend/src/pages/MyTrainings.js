@@ -167,10 +167,9 @@ const MyTrainings = () => {
       return;
     }
     try {
-      console.log(editFormData)
       await axios.put(`/api/sporttraining/${trainingId}`, {
         startDate: editFormData.date,
-        //startTime: "0." + editFormData.startTime + ".0000",
+        startTime: "0." + editFormData.time + ".0000",
         duration: "0." + parseInt(editFormData.duration / 60) + ":" + editFormData.duration % 60 + ":00.0000"
       });
       setSuccess("Trening uspješno ažuriran!");

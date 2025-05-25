@@ -151,7 +151,7 @@ const MyTrainings = () => {
     setEditFormData({
       date: trainingToEdit.startDate.toISOString().split("T")[0], // YYYY-MM-DD
       time: trainingToEdit.startTime, // HH:MM
-      duration: trainingToEdit.duration // Ili kako god backend vraća duration, ako treba parsirati za prikaz
+      duration: Number(trainingToEdit.duration.split(":")[0] * 60 + trainingToEdit.duration.split(":")[1]) // Ili kako god backend vraća duration, ako treba parsirati za prikaz
     });
     setError("");
     setSuccess("");
@@ -172,7 +172,9 @@ const MyTrainings = () => {
     try {
       console.log(editFormData)
       await axios.put(`/api/sporttraining/${trainingId}`, {
-        startDate: editFormData.date
+        startDate: editFormData.date,
+        //startTime: "0." + editFormData.startTime + ".0000",
+        duration: "0." + parseInt(editFormData.duration / 60) + ":" + editFormData.duration % 60 + ":00.0000"
       });
       setSuccess("Trening uspješno ažuriran!");
       setEditingTrainingId(null);

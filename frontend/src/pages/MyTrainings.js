@@ -14,7 +14,7 @@ const MyTrainings = () => {
   const [groups, setGroups] = useState([]);
   const [groupTrainings, setGroupTrainings] = useState({});
   const [showAddTraining, setShowAddTraining] = useState(null);
-  const [newTraining, setNewTraining] = useState({ date: "", time: "", location: "" });
+  const [newTraining, setNewTraining] = useState({ date: "", time: "", duration: "" });
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
@@ -45,13 +45,21 @@ const MyTrainings = () => {
   // --- Trener: dohvat grupa i treninga ---
   useEffect(() => {
     if (user && user.role === "trainer") {
-      axios.get(`/api/sport_groups?trainer_id=${user.id}`).then(res => {
+      axios.get(`/api/sportgroup?trainerid=${user.id}`).then(res => {
         setGroups(res.data);
         res.data.forEach(group => {
-          axios.get(`/api/sport_trainings?group_id=${group.id}`).then(res2 => {
+          axios.get(`/api/sporttraining?groupid=${group.id}`).then(res2 => {
+            let trainings = []
+            res2.data.forEach(training => {
+              trainings.push({
+                startDate: new Date(training.startDate),
+                startTime: new Date(training.startTime),
+                duration: training.duration
+              })
+            })
             setGroupTrainings(prev => ({
               ...prev,
-              [group.id]: res2.data,
+              [group.id]: trainings,
             }));
           });
         });
@@ -63,22 +71,23 @@ const MyTrainings = () => {
   const handleAddTraining = async (groupId) => {
     setError("");
     setSuccess("");
-    if (!newTraining.date || !newTraining.time || !newTraining.location) {
+    if (!newTraining.date || !newTraining.time || !newTraining.duration) {
       setError("Popunite sva polja za novi trening.");
       return;
     }
     try {
-      await axios.post("/api/sport_trainings", {
-        group_id: groupId,
-        date: newTraining.date,
-        time: newTraining.time,
-        location: newTraining.location,
+      console.log(newTraining.date.toString("yyyy-MM-dd") + "T" + newTraining.time.toString("HH:mm"))
+      await axios.post("/api/sporttraining", {
+        groupid: groupId,
+        startdate: newTraining.date.toString("yyyy-MM-dd"),
+        starttime: newTraining.date.toString("yyyy-MM-dd") + "T" + newTraining.time.toString("HH:mm") + ":00",
+        duration: "0." + parseInt(newTraining.duration / 60).toString() + ":" + newTraining.duration % 60 + ":00.0000"
       });
       setSuccess("Trening uspješno dodan!");
       setShowAddTraining(null);
-      setNewTraining({ date: "", time: "", location: "" });
+      setNewTraining({ date: "", time: "", duration: "" });
       // Osvježi treninge za grupu
-      const res = await axios.get(`/api/sport_trainings?group_id=${groupId}`);
+      const res = await axios.get(`/api/sporttraining?groupid=${groupId}`);
       setGroupTrainings(prev => ({ ...prev, [groupId]: res.data }));
     } catch (err) {
       setError("Greška pri dodavanju treninga.");
@@ -160,9 +169,9 @@ const MyTrainings = () => {
                     />
                     <input
                       type="text"
-                      placeholder="Lokacija"
-                      value={newTraining.location}
-                      onChange={e => setNewTraining({ ...newTraining, location: e.target.value })}
+                      placeholder="Trajanje (u minutama)"
+                      value={newTraining.duration}
+                      onChange={e => setNewTraining({ ...newTraining, duration: e.target.value })}
                       required
                     />
                     <button onClick={() => handleAddTraining(group.id)}>Spremi</button>
@@ -173,9 +182,9 @@ const MyTrainings = () => {
                   {groupTrainings[group.id] && groupTrainings[group.id].length > 0 ? (
                     groupTrainings[group.id].map(tr => (
                       <div key={tr.id} className="training-card">
-                        <div>Datum: {tr.date}</div>
-                        <div>Vrijeme: {tr.time}</div>
-                        <div>Lokacija: {tr.location}</div>
+                        <div>Datum: {tr.startDate.getDate()}.{tr.startDate.getMonth()+1}.{tr.startDate.getFullYear()}.</div>
+                        <div>Vrijeme: {tr.startTime.getUTCHours()}:{tr.startTime.getUTCMinutes()}</div>
+                        <div>Trajanje: {tr.duration.split(":")[0]}:{tr.duration.split(":")[1]}</div>
                       </div>
                     ))
                   ) : (

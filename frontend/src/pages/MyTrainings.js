@@ -352,7 +352,7 @@ const MyTrainings = () => {
                 <div className="trainings-list">
                   {groupTrainings[group.id] &&
                   groupTrainings[group.id].length > 0 ? (
-                    groupTrainings[group.id].map((tr) => (
+                    groupTrainings[group.id].map( tr => (
                       <div key={tr.id} className="training-card">
                         {editingTrainingId === tr.id ? (
                           // Forma za uređivanje

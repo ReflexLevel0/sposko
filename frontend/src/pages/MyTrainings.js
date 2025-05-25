@@ -95,7 +95,7 @@ const MyTrainings = () => {
       setShowAddTraining(null);
       setNewTraining({ date: "", time: "", duration: "" });
       // Osvježi treninge za grupu
-      axios.get(`/api/sporttraining?groupid=${group.id}`).then(res2 => {
+      axios.get(`/api/sporttraining?groupid=${groupId}`).then(res2 => {
             let trainings = []
             res2.data.forEach(training => {
               trainings.push({
@@ -106,7 +106,7 @@ const MyTrainings = () => {
             })
             setGroupTrainings(prev => ({
               ...prev,
-              [group.id]: trainings,
+              [groupId]: trainings,
             }));
           });
     } catch (err) {

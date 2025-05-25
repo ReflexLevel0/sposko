@@ -109,10 +109,7 @@ const MyTrainings = () => {
         groupid: groupId,
         startdate: newTraining.date.toString("yyyy-MM-dd"),
         starttime:
-          newTraining.date.toString("yyyy-MM-dd") +
-          "T" +
-          newTraining.time.toString("HH:mm") +
-          ":00",
+          "0." + newTraining.time + ":00.0000",
         duration:
           "0." +
           parseInt(newTraining.duration / 60).toString() +

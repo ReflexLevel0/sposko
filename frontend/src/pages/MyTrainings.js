@@ -76,7 +76,7 @@ const MyTrainings = () => {
             res2.data.forEach((training) => {
               trainings.push({
                 startDate: new Date(training.startDate),
-                startTime: new Date(training.startTime),
+                startTime: training.startTime,
                 duration: training.duration,
                 id: training.id,
               });
@@ -102,8 +102,8 @@ const MyTrainings = () => {
     try {
       console.log(
         newTraining.date.toString("yyyy-MM-dd") +
-          "T" +
-          newTraining.time.toString("HH:mm")
+        "T" +
+        newTraining.time.toString("HH:mm")
       );
       await axios.post("/api/sporttraining", {
         groupid: groupId,
@@ -129,7 +129,7 @@ const MyTrainings = () => {
         res2.data.forEach((training) => {
           trainings.push({
             startDate: new Date(training.startDate),
-            startTime: new Date(training.startTime),
+            startTime: training.startTime,
             duration: training.duration,
             id: training.id,
           });
@@ -150,11 +150,7 @@ const MyTrainings = () => {
     // Pretpostavka: trainingToEdit.duration je string koji predstavlja npr. minute
     setEditFormData({
       date: trainingToEdit.startDate.toISOString().split("T")[0], // YYYY-MM-DD
-      time: trainingToEdit.startTime.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }), // HH:MM
+      time: trainingToEdit.startTime, // HH:MM
       duration: trainingToEdit.duration // Ili kako god backend vraća duration, ako treba parsirati za prikaz
     });
     setError("");
@@ -174,9 +170,9 @@ const MyTrainings = () => {
       return;
     }
     try {
+      console.log(editFormData)
       await axios.put(`/api/sporttraining/${trainingId}`, {
-        date: editFormData.date,
-        duration: editFormData.duration,
+        startDate: editFormData.date
       });
       setSuccess("Trening uspješno ažuriran!");
       setEditingTrainingId(null);
@@ -185,7 +181,7 @@ const MyTrainings = () => {
         res2.data.forEach((training) => {
           trainings.push({
             startDate: new Date(training.startDate),
-            startTime: new Date(training.startTime),
+            startTime: training.startTime,
             duration: training.duration,
             id: training.id,
           });
@@ -216,7 +212,7 @@ const MyTrainings = () => {
         res2.data.forEach((training) => {
           trainings.push({
             startDate: new Date(training.startDate),
-            startTime: new Date(training.startTime),
+            startTime: training.startTime,
             duration: training.duration,
             id: training.id,
           });
@@ -263,7 +259,7 @@ const MyTrainings = () => {
                       </div>
                       <div className="trainings-list">
                         {trainings[`${child.id}-${group.group_id}`] &&
-                        trainings[`${child.id}-${group.group_id}`].length >
+                          trainings[`${child.id}-${group.group_id}`].length >
                           0 ? (
                           trainings[`${child.id}-${group.group_id}`].map(
                             (tr) => (
@@ -353,7 +349,7 @@ const MyTrainings = () => {
                 )}
                 <div className="trainings-list">
                   {groupTrainings[group.id] &&
-                  groupTrainings[group.id].length > 0 ? (
+                    groupTrainings[group.id].length > 0 ? (
                     groupTrainings[group.id].map((tr) => (
                       <div key={tr.id} className="training-card">
                         {editingTrainingId === tr.id ? (
@@ -416,8 +412,7 @@ const MyTrainings = () => {
                                 {tr.startDate.getFullYear()}.
                               </div>
                               <div>
-                                Vrijeme: {tr.startTime.getUTCHours()}:
-                                {tr.startTime.getUTCMinutes()}
+                                Vrijeme: {tr.startTime.split(":")[0]}:{tr.startTime.split(":")[1]}
                               </div>
                               <div>
                                 Trajanje: {tr.duration.split(":")[0]}:

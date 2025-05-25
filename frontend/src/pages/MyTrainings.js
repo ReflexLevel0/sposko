@@ -95,8 +95,20 @@ const MyTrainings = () => {
       setShowAddTraining(null);
       setNewTraining({ date: "", time: "", duration: "" });
       // Osvježi treninge za grupu
-      const res = await axios.get(`/api/sporttraining?groupid=${groupId}`);
-      setGroupTrainings(prev => ({ ...prev, [groupId]: res.data }));
+      axios.get(`/api/sporttraining?groupid=${group.id}`).then(res2 => {
+            let trainings = []
+            res2.data.forEach(training => {
+              trainings.push({
+                startDate: new Date(training.startDate),
+                startTime: new Date(training.startTime),
+                duration: training.duration
+              })
+            })
+            setGroupTrainings(prev => ({
+              ...prev,
+              [group.id]: trainings,
+            }));
+          });
     } catch (err) {
       setError("Greška pri dodavanju treninga.");
     }

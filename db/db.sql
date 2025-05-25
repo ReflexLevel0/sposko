@@ -72,7 +72,7 @@ CREATE TABLE sport_trainings(
   id SERIAL PRIMARY KEY,
   group_id INT NOT NULL,
   start_date DATE NOT NULL,
-  start_time TIME WITH TIME ZONE NOT NULL,
+  start_time INTERVAL NOT NULL,
   duration INTERVAL NOT NULL,
   end_date DATE,
   repeat_type VARCHAR(32),

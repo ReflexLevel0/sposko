@@ -11,8 +11,9 @@ public class ServiceHelper<TEntity, TDTO, TCreateDTO, TUpdateDTO> : IServiceHelp
             var readObj = await getObjectQuery.FirstOrDefaultAsync(CancellationToken.None);
             return readObj == null ? null : mapper.Invoke(readObj);
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             return null;
         }
     }

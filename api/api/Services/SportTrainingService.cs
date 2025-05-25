@@ -48,7 +48,7 @@ public class SportTrainingService(ISposkoDb db, IServiceHelper<SportTraining, Sp
           .Where(t => t.Id == id)
           .Set(t => t.GroupId, t => newTraining.GroupId ?? t.GroupId)
           .Set(t => t.StartDate, t => newTraining.StartDate ?? t.StartDate)
-          // .Set(t => t.StartTime, t => newTraining.StartTime ?? t.StartTime)
+          .Set(t => t.StartTime, t => newTraining.StartTime ?? t.StartTime)
           .Set(t => t.Duration, t => newTraining.Duration ?? t.Duration)
           .Set(t => t.EndDate, t => newTraining.EndDate ?? t.EndDate)
           .Set(t => t.RepeatType, t => newTraining.RepeatType ?? t.RepeatType)

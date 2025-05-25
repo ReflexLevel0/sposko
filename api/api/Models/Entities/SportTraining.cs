@@ -20,7 +20,7 @@ namespace sposko
         [Column("id", IsPrimaryKey = true, IsIdentity = true, SkipOnInsert = true, SkipOnUpdate = true)] public int Id { get; set; } // integer
         [Column("group_id")] public int GroupId { get; set; } // integer
         [Column("start_date")] public DateTime StartDate { get; set; } // date
-        [Column("start_time")] public DateTimeOffset StartTime { get; set; } // time with time zone
+        [Column("start_time")] public TimeSpan StartTime { get; set; } // interval
         [Column("duration")] public TimeSpan Duration { get; set; } // interval
         [Column("end_date")] public DateTime? EndDate { get; set; } // date
         [Column("repeat_type")] public string? RepeatType { get; set; } // character varying(32)

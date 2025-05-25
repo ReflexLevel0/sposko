@@ -148,7 +148,7 @@ const MyTrainings = () => {
     setEditFormData({
       date: trainingToEdit.startDate.toISOString().split("T")[0], // YYYY-MM-DD
       time: trainingToEdit.startTime, // HH:MM
-      duration: Number(trainingToEdit.duration.split(":")[0] * 60 + trainingToEdit.duration.split(":")[1]) // Ili kako god backend vraća duration, ako treba parsirati za prikaz
+      duration: Number(Number(trainingToEdit.duration.split(":")[0] * 60) + Number(trainingToEdit.duration.split(":")[1])) // Ili kako god backend vraća duration, ako treba parsirati za prikaz
     });
     setError("");
     setSuccess("");

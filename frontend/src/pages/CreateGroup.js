@@ -18,8 +18,11 @@ const CreateGroup = () => {
 
   useEffect(() => {
     // Dohvati sve sportove (npr. /api/sports)
-    axios.get("/api/sports")
-      .then(res => setSports(res.data))
+    axios.get("/api/sport")
+      .then(res => {
+        console.log("fetched sports: " + res)
+        setSports(res.data)
+      })
       .catch(() => setSports([]));
   }, []);
 
@@ -40,13 +43,13 @@ const CreateGroup = () => {
       return;
     }
     try {
-      await axios.post("/api/sport_groups", {
-        trainer_id: user.id,
+      await axios.post("/api/sportgroup", {
+        trainerid: user.id,
         name: form.name,
-        sport_id: form.sport_id,
-        max_members: form.max_members,
-        min_age: form.min_age,
-        max_age: form.max_age,
+        sportid: form.sport_id,
+        maxmembers: form.max_members,
+        minage: form.min_age,
+        maxage: form.max_age,
       });
       setSuccess("Grupa je uspješno kreirana!");
       setForm({

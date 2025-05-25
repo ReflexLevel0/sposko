@@ -45,6 +45,16 @@ builder.Services.AddScoped<ISportTrainingService>(
       ctx.GetService<IServiceHelper<SportTraining, SportTrainingDTO, CreateSportTrainingDTO>>()
     )
 );
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost3000", policy =>
+    {
+        policy
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -57,5 +67,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseCors("AllowLocalhost3000");
 
 app.Run();

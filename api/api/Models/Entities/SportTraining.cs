@@ -40,5 +40,21 @@ namespace sposko
         [Association(ThisKey = nameof(Id), OtherKey = nameof(TrainingException.TrainingId))]
         public IEnumerable<TrainingException> TrainingExceptions { get; set; } = null!;
         #endregion
+
+        public static explicit operator SportTrainingDTO(SportTraining t)
+        {
+            return new SportTrainingDTO
+            {
+                Id = t.Id,
+                GroupId = t.GroupId,
+                StartDate = t.StartDate,
+                StartTime = t.StartTime,
+                Duration = t.Duration,
+                EndDate = t.EndDate,
+                RepeatType = t.RepeatType,
+                RepeatInterval = t.RepeatInterval,
+                Cost = t.Cost
+            };
+        }
     }
 }

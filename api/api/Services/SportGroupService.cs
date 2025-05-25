@@ -43,5 +43,4 @@ public class SportGroupService(ISposkoDb db, IServiceHelper<SportGroup, SportGro
     {
         return await serviceHelper.DeleteObjectById(_getGroupById.Invoke(id));
     }
-
 }

@@ -47,7 +47,7 @@ builder.Services.AddScoped<ISportTrainingService>(
 );
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost3000", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
         policy
         .AllowAnyHeader()
@@ -67,6 +67,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
-app.UseCors("AllowLocalhost3000");
+app.UseCors("AllowAll");
 
 app.Run();

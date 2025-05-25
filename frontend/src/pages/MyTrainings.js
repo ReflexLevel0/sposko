@@ -78,6 +78,7 @@ const MyTrainings = () => {
                 startDate: new Date(training.startDate),
                 startTime: new Date(training.startTime),
                 duration: training.duration,
+                id: training.id,
               });
             });
             setGroupTrainings((prev) => ({
@@ -130,6 +131,7 @@ const MyTrainings = () => {
             startDate: new Date(training.startDate),
             startTime: new Date(training.startTime),
             duration: training.duration,
+            id: training.id,
           });
         });
         setGroupTrainings((prev) => ({
@@ -153,7 +155,7 @@ const MyTrainings = () => {
         minute: "2-digit",
         hour12: false,
       }), // HH:MM
-      duration: String(trainingToEdit.duration), // Ili kako god backend vraća duration, ako treba parsirati za prikaz, to bi se radilo ovdje
+      duration: String(trainingToEdit.duration), // Ili kako god backend vraća duration, ako treba parsirati za prikaz
     });
     setError("");
     setSuccess("");
@@ -173,10 +175,9 @@ const MyTrainings = () => {
     }
     try {
       await axios.put(`/api/sporttraining/${trainingId}`, {
-        // Backend očekuje sirove stringove
         date: editFormData.date,
         time: editFormData.time,
-        duration: editFormData.duration, // Npr. "90"
+        duration: editFormData.duration,
       });
       setSuccess("Trening uspješno ažuriran!");
       setEditingTrainingId(null);
@@ -187,6 +188,7 @@ const MyTrainings = () => {
             startDate: new Date(training.startDate),
             startTime: new Date(training.startTime),
             duration: training.duration,
+            id: training.id,
           });
         });
         setGroupTrainings((prev) => ({
@@ -217,6 +219,7 @@ const MyTrainings = () => {
             startDate: new Date(training.startDate),
             startTime: new Date(training.startTime),
             duration: training.duration,
+            id: training.id,
           });
         });
         setGroupTrainings((prev) => ({
@@ -352,7 +355,7 @@ const MyTrainings = () => {
                 <div className="trainings-list">
                   {groupTrainings[group.id] &&
                   groupTrainings[group.id].length > 0 ? (
-                    groupTrainings[group.id].map( tr => (
+                    groupTrainings[group.id].map((tr) => (
                       <div key={tr.id} className="training-card">
                         {editingTrainingId === tr.id ? (
                           // Forma za uređivanje

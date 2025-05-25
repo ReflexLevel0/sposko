@@ -155,7 +155,7 @@ const MyTrainings = () => {
         minute: "2-digit",
         hour12: false,
       }), // HH:MM
-      duration: String(trainingToEdit.duration), // Ili kako god backend vraća duration, ako treba parsirati za prikaz
+      duration: trainingToEdit.duration // Ili kako god backend vraća duration, ako treba parsirati za prikaz
     });
     setError("");
     setSuccess("");

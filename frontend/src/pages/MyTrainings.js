@@ -176,7 +176,6 @@ const MyTrainings = () => {
     try {
       await axios.put(`/api/sporttraining/${trainingId}`, {
         date: editFormData.date,
-        time: editFormData.time,
         duration: editFormData.duration,
       });
       setSuccess("Trening uspješno ažuriran!");

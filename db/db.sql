@@ -95,3 +95,30 @@ CREATE TABLE child_group(
   FOREIGN KEY (child_id) REFERENCES children (id) ON DELETE CASCADE,
   FOREIGN KEY (group_id) REFERENCES sport_groups (id) ON DELETE CASCADE
 );
+
+INSERT INTO sports(id, name) VALUES
+	(1, 'Nogomet'),
+	(2, 'Tenis'),
+	(3, 'Plivanje');
+INSERT INTO users(id, username, password, first_name, last_name, phone_number, email) VALUES
+	('e4d064bd-f6b0-47f9-bb08-3330ffa8c2ab', 'admin', 'admin', 'Pero', 'Perić', '098456432', 'pero.peric@gmail.com'),
+	('281147de-75bd-4e33-a27c-2a084abfee82', 'ante', 'ante.antic', 'Ante', 'Antić', '095053252', 'ante.antic@gmail.com');
+INSERT INTO trainers(id, date_of_birth, info) VALUES
+	('e4d064bd-f6b0-47f9-bb08-3330ffa8c2ab', '1993-03-14', 'Ja sam Pero i volim sportove!'),
+	('281147de-75bd-4e33-a27c-2a084abfee82', '1975-08-23', 'Ja sam Ante i apsolutno mrzim sportove!!! >:[');
+INSERT INTO sport_groups(id, name, trainer_id, sport_id, max_members, min_age, max_age) VALUES
+	(1, 'Nogometna grupa 1', 'e4d064bd-f6b0-47f9-bb08-3330ffa8c2ab', 1, 16, 16,18),
+	(2, 'Nogometna grupa 2', 'e4d064bd-f6b0-47f9-bb08-3330ffa8c2ab', 1, 24, 18, 19),
+	(3, 'Teniska grupa', 'e4d064bd-f6b0-47f9-bb08-3330ffa8c2ab', 2, 8, 10, 14),
+	(4, 'Plivački tim', 'e4d064bd-f6b0-47f9-bb08-3330ffa8c2ab', 3, 12, 16, 18),
+	(5, 'Antinovićki nogometaši', '281147de-75bd-4e33-a27c-2a084abfee82', 1, 22, 12, 13);
+INSERT INTO sport_trainings(group_id, start_date, start_time, duration, cost) VALUES
+	(1, '2025-06-01', '16:00:00', '01:45:00', 5),
+	(1, '2025-06-08', '14:00:00', '02:15:00', 7.5),
+	(1, '2025-06-15', '16:00:00', '01:45:00', 5),
+	(2, '2025-06-01', '12:30:00', '02:15:00', 7.5),
+	(2, '2025-06-08', '10:30:00', '01:45:00', 5),
+	(2, '2025-06-15', '12:30:00', '02:15:00', 7.5),
+	(3, '2025-06-03', '12:00:00', '00:45:00', 4),
+	(4, '2025-06-05', '13:30:00', '01:00:00', 6),
+	(5, '2025-06-07', '11:15:00', '01:15:00', 4);
